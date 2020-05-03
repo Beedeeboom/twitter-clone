@@ -1,28 +1,20 @@
 class TwitesController < ApplicationController
   before_action :set_twite, only: [:show, :edit, :update, :destroy]
 
-  # GET /twites
-  # GET /twites.json
   def index
     @twites = Twite.all
   end
 
-  # GET /twites/1
-  # GET /twites/1.json
   def show
   end
 
-  # GET /twites/new
   def new
     @twite = Twite.new
   end
 
-  # GET /twites/1/edit
   def edit
   end
 
-  # POST /twites
-  # POST /twites.json
   def create
     @twite = Twite.new(twite_params)
 
@@ -37,8 +29,6 @@ class TwitesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /twites/1
-  # PATCH/PUT /twites/1.json
   def update
     respond_to do |format|
       if @twite.update(twite_params)
@@ -51,8 +41,6 @@ class TwitesController < ApplicationController
     end
   end
 
-  # DELETE /twites/1
-  # DELETE /twites/1.json
   def destroy
     @twite.destroy
     respond_to do |format|
