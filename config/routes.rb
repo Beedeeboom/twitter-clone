@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   resources :twites do
     post '/comments', to: "comments#create", as: "comments"
     patch '/comments/:comment_id', to: "comments#update"

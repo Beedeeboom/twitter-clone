@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
-    <title>TwitterClone</title>
+    <title>Twitter</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,7 +10,15 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <%= yield %>
+    <aside id="column-left">
+    <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+
+    </aside>
+    <div id="column-middle">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
+    <aside id="column-right">Sidebar2</aside>
   </body>
 </html>

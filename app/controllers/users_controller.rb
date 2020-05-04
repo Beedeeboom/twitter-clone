@@ -27,6 +27,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user.avatar.attach(params[:user][:avatar])
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to root, notice: 'User was successfully updated.' }

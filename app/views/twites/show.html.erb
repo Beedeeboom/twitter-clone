@@ -1,14 +1,42 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Body:</strong>
   <%= @twite.body %>
 </p>
+
+<% @twite.twite_pictures.each do |picture| %>
+  <%= image_tag picture, width: "100", height: "100" %>
+<% end %>
 
 <p>
   <strong>User:</strong>
   <%= @twite.user_id %>
 </p>
 
-<%= link_to 'Edit', edit_twite_path(@twite) %> |
+<% if current_user.id == @twite.user_id %>
+  <%= link_to 'Edit', edit_twite_path(@twite) %> |
+<% end %>
 <%= link_to 'Back', twites_path %>
+
+<h2>Comments Section</h2>
+<% @twite.comments.each do |comment| %>
+  <p><%= comment.body %></p>
+  <%= image_tag(comment.comment_picture, width: "75", height: "75") if comment.comment_picture.attached? %>
+  <% if current_user.id == comment.user_id || current_user.id == @twite.user_id %>
+    <%= link_to "Delete", "/twites/#{@twite.id}/comments/#{comment.id}", method: :delete  %>
+  <% end %>
+<% end %>
+
+
+<%= form_with(model: Comment.new, local: true, url: "/twites/#{@twite.id}/comments") do |form| %>
+  <div>
+    <%= form.label :body %>
+    <%= form.text_field :body %>
+  </div>
+  <div>
+    <%= form.label :comment_picture %>
+    <%= form.file_field :comment_picture%>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

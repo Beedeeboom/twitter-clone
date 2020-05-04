@@ -1,5 +1,12 @@
 class TwitesController < ApplicationController
   before_action :set_twite, only: [:show, :edit, :update, :destroy]
+  before_action :check_for_image_or_body, only: [:update, :create]
+
+  def check_for_image_or_body
+    if params[:twite][:body] == "" and params[:twite][:twite_picture] == nil
+      render plain: "Rendering something here"
+    end
+  end
 
   def index
     @twites = Twite.all
@@ -13,11 +20,16 @@ class TwitesController < ApplicationController
   end
 
   def edit
+    if @twite.user_id != current_user.id
+      redirect_to root_path, notice: "Unauthorised"
+    end
   end
 
   def create
     @twite = Twite.new(twite_params)
-
+    @twite.user_id = current_user.id
+    @twite.twite_pictures.attach(params[:twite][:twite_pictures])
+    
     respond_to do |format|
       if @twite.save
         format.html { redirect_to @twite, notice: 'Twite was successfully created.' }
@@ -30,6 +42,7 @@ class TwitesController < ApplicationController
   end
 
   def update
+    @twite.twite_pictures.attach(params[:twite][:twite_pictures])
     respond_to do |format|
       if @twite.update(twite_params)
         format.html { redirect_to @twite, notice: 'Twite was successfully updated.' }
@@ -57,6 +70,6 @@ class TwitesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def twite_params
-      params.require(:twite).permit(:body, :user_id)
+      params.require(:twite).permit(:body)
     end
 end
